@@ -1,0 +1,16 @@
+@startuml
+!define pathBrUml https://raw.githubusercontent.com/brunosouzas/brunosouzas-plantUML/master
+!include pathBrUml/GeneralCommon.puml
+!include pathBrUml/dist/mulesoft/Mulesoft.puml
+!include https://raw.githubusercontent.com/adrianvlupu/C4-PlantUML/latest/C4_Context.puml
+
+title System Context diagram for Customer Consolidate System
+
+Person(customerRelations, "Customer Relations team", "Customer Relations team")
+System(customerRelations_system, "Single Page Application", "consolidated view of a Customer")
+
+mulesoft(customerAPI, "Rest API ", "consolidatedCustomer", "url")
+
+Rel(customerRelations, customerRelations_system, "Uses")
+Rel(customerRelations_system, customerAPI, "Uses", "JSON/HTTPS")
+@enduml

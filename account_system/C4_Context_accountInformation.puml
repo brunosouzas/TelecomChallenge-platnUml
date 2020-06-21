@@ -1,0 +1,21 @@
+@startuml
+!define pathBrUml https://raw.githubusercontent.com/brunosouzas/brunosouzas-plantUML/master
+!include pathBrUml/GeneralCommon.puml
+!include pathBrUml/dist/mulesoft/Mulesoft.puml
+!include https://raw.githubusercontent.com/adrianvlupu/C4-PlantUML/latest/C4_Context.puml
+
+title System Context diagram for account information System
+
+Person(customer, "Customer", "Customer's from Company")
+
+Enterprise_Boundary(c0, "Account information") {
+  System(mobile, "Mobile App", "Account and Billing Information for customer’s")
+  System(webApp, "Single Page Application", "Account and Billing Information for customer’s")
+}
+mulesoft(customerAPI, "Rest API ", "accountInformation", "url")
+
+Rel(customer, mobile, "Uses", "JSON/HTTPS")
+Rel(customer, webApp, "Uses", "JSON/HTTPS")
+Rel(mobile, customerAPI, "Uses", "JSON/HTTPS")
+Rel(webApp, customerAPI, "Uses", "JSON/HTTPS")
+@enduml

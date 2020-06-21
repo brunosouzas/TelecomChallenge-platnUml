@@ -1,0 +1,18 @@
+@startuml
+!define pathBrUml https://raw.githubusercontent.com/brunosouzas/brunosouzas-plantUML/master
+!include pathBrUml/GeneralCommon.puml
+!include pathBrUml/dist/mulesoft/Mulesoft.puml
+!include https://raw.githubusercontent.com/adrianvlupu/C4-PlantUML/latest/C4_Component.puml
+
+title Component diagram for Invoice System API
+
+mulesoftDunkey(invoiceSys, "Rest API", "invoice-sys", "http://invoice-sys.us-e2.cloudhub.io")
+
+Container_Boundary(api, "Invoice System API") {
+  Component(mainframe_system, "Mainframe System", "invoices.csv", "Stores all of the core information about telephone data, broadband data, contract data, billing data, customer data")
+  Component(awsS3, "Invoice File System", "aws S3", "bucketName::brunosouzas-invoices")  
+}
+
+Rel(invoiceSys, mainframe_system, "Uses", "XML/HTTPS")
+Rel(invoiceSys, awsS3, "Uses", "JSON/HTTPS")
+@enduml

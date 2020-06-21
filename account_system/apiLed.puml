@@ -1,0 +1,53 @@
+@startuml APIled
+!define pathBrUml https://raw.githubusercontent.com/brunosouzas/brunosouzas-plantUML/master
+!include pathBrUml/GeneralCommon.puml
+!include pathBrUml/dist/mulesoft/Mulesoft.puml
+!include https://raw.githubusercontent.com/adrianvlupu/C4-PlantUML/latest/C4_Container.puml
+
+Title API led to Account Information System
+
+LAYOUT_TOP_DOWN
+
+experienceLayer(expLayer) {
+  mulesoftDunkey(accountSystem, "Rest API", "accountInformation")
+}
+
+processLayer(prcLayer) {
+  mulesoftDunkey(invoicePrc, "Rest API", "invoice-prc")
+  mulesoftDunkey(contractPrc, "Rest API", "contract-prc")
+  mulesoftDunkey(billPrc, "Rest API", "bill-prc")
+}
+
+systemLayer(sysLayer) {
+  mulesoftDunkey(customerSys, "Rest API", "customer-sys")
+  mulesoftDunkey(billSys, "Rest API", "bill-sys")
+  mulesoftDunkey(invoiceSys, "Rest API", "invoice-sys")
+  mulesoftDunkey(contractSys, "Rest API", "contract-sys")
+  mulesoftDunkey(planSys, "Rest API", "plan-sys")
+}
+
+System_Ext(mainframe_system, "Mainframe System", "Stores all of the core information about telephone data, broadband data, contract data, invoice data, customer data, billing data")
+System_Ext(plan_system, "Database Plan", "Stores all information about telephone plan, broadband plan")
+System_Ext(customer_system, "Customer System", "J2EE system to store all informations about Customer")
+
+Rel(accountSystem, customerSys, "Uses", "JSON/HTTPS")
+Rel(accountSystem, invoicePrc, "Uses", "JSON/HTTPS")
+Rel(accountSystem, billPrc, "Uses", "JSON/HTTPS")
+Rel(accountSystem, contractPrc, "Uses", "JSON/HTTPS")
+
+Rel(invoicePrc, customerSys, "Uses", "JSON/HTTPS")
+Rel_Left(invoicePrc, billPrc, "Uses", "JSON/HTTPS")
+Rel(invoicePrc, invoiceSys, "Uses", "JSON/HTTPS")
+Rel(billPrc, customerSys, "Uses", "JSON/HTTPS")
+Rel(billPrc, billSys, "Uses", "JSON/HTTPS")
+Rel(contractPrc, contractSys, "Uses", "JSON/HTTPS")
+Rel(contractPrc, planSys, "Uses", "JSON/HTTPS")
+
+Rel(customerSys, mainframe_system, "Uses", "XML/HTTPS")
+Rel(customerSys, customer_system, "Uses", "XML/HTTPS")
+Rel(invoiceSys, mainframe_system, "Uses", "XML/HTTPS")
+Rel(billSys, mainframe_system, "Uses", "XML/HTTPS")
+Rel(contractSys, mainframe_system, "Uses", "XML/HTTPS")
+Rel(planSys, plan_system, "Read & write to", "JDBC")
+
+@enduml
